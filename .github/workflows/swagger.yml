@@ -51,11 +51,12 @@ jobs:
 
       - name: Generate Swagger UI
         run: |
-          # Скачиваем и настраиваем Swagger UI
+          # Скачиваем и распаковываем Swagger UI
           wget -O swagger-ui.zip https://github.com/swagger-api/swagger-ui/archive/refs/heads/master.zip
           unzip -q swagger-ui.zip
           mkdir -p swagger-ui
           cp -r swagger-ui-master/dist/* swagger-ui/
+          # Меняем URL спецификации на локальный файл
           sed -i 's|https://petstore.swagger.io/v2/swagger.json|./openapi.json|g' swagger-ui/index.html
           cp openapi.json swagger-ui/
 
