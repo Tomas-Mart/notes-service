@@ -35,19 +35,19 @@ jobs:
           nohup java -jar target/notes-service-*.jar > app.log 2>&1 &
           
           # Ждем запуска с проверкой через health endpoint
-          echo "Waiting for application to start..."
+          echo "Ожидание запуска приложения..."
           for i in {1..30}; do
             if curl -s http://localhost:8181/actuator/health > /dev/null 2>&1; then
-              echo "Application is ready!"
+              echo "Приложение готово!"
               break
             fi
-            echo "Attempt $i/30: Waiting..."
+            echo "Попытка $i/30: Ожидание..."
             sleep 2
           done
           
           # Проверяем, что приложение запущено
           if ! curl -s http://localhost:8181/actuator/health > /dev/null 2>&1; then
-            echo "Application failed to start!"
+            echo "Приложение не запустилось!"
             cat app.log
             exit 1
           fi
@@ -63,8 +63,6 @@ jobs:
         with:
           output: swagger-ui
           spec-file: openapi.json
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to GitHub Pages
