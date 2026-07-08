@@ -262,7 +262,7 @@ jobs:
             cat app.log
             exit 1
           fi
-          curl -o openapi.json http://localhost:8181/v3/api-docs
+          curl -o openapi.json http://localhost:8181/api-docs
           pkill -f "notes-service" || true
 
       - name: 📄 Generate Swagger UI
