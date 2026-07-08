@@ -72,6 +72,9 @@ jobs:
             <p>Redirecting to <a href="./swagger/">Swagger UI</a>...</p>
           </body>
           </html>' > swagger-ui/index.html
+          
+          # ✅ КОПИРУЕМ ЕГО В КОРЕНЬ (для главной страницы)
+          cp swagger-ui/index.html swagger-ui/../
 
 
       - name: 📤 Deploy to GitHub Pages
