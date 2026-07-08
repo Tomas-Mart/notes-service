@@ -23,12 +23,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build and run app
+      - name: Build JAR
+        run: mvn clean package -DskipTests
+
+      - name: Run app and generate OpenAPI
         run: |
-          # Запускаем приложение в фоне
-          nohup mvn spring-boot:run > app.log 2>&1 &
+          # Запускаем JAR в фоне
+          nohup java -jar target/notes-service-*.jar > app.log 2>&1 &
           
-          # Ждем запуска с проверкой
+          # Ждем запуска с проверкой через health endpoint
           echo "Waiting for application to start..."
           for i in {1..30}; do
             if curl -s http://localhost:8181/actuator/health > /dev/null 2>&1; then
@@ -50,13 +53,15 @@ jobs:
           curl -o openapi.json http://localhost:8181/v3/api-docs
           
           # Останавливаем приложение
-          pkill -f "spring-boot:run" || true
+          pkill -f "notes-service" || true
 
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
         with:
           output: swagger-ui
           spec-file: openapi.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
