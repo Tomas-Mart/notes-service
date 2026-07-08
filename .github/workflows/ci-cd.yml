@@ -276,9 +276,20 @@ jobs:
           # Исправляем ссылку в swagger-initializer.js (вместо index.html)
           sed -i 's|https://petstore.swagger.io/v2/swagger.json|./openapi.json|g' swagger-ui/swagger-initializer.js
 
-          # Копируем вашу спецификацию
+          # Копируем файлы
           cp openapi.json swagger-ui/
-          cp index.md swagger-ui/../
+          cp index.md swagger-ui/
+
+          # ✅ СОЗДАЁМ index.html ДЛЯ ПЕРЕНАПРАВЛЕНИЯ
+          echo '<!DOCTYPE html>
+          <html>
+          <head>
+            <meta http-equiv="refresh" content="0; url=./swagger/">
+          </head>
+          <body>
+            <p>Redirecting to <a href="./swagger/">Swagger UI</a>...</p>
+          </body>
+          </html>' > swagger-ui/index.html
 
       - name: 📤 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
@@ -286,4 +297,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: swagger-ui
           publish_branch: gh-pages
-          destination_dir: swagger  # 👈 Ключевое: публикуем в папку /swagger
+          destination_dir: swagger
