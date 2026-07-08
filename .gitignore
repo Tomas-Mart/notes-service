@@ -1,0 +1,168 @@
+# ==========================================
+# Compiled files
+# ==========================================
+target/
+out/
+build/
+*.class
+
+# ==========================================
+# Logs
+# ==========================================
+logs/
+*.log
+*.log.gz
+
+# ==========================================
+# IDE files
+# ==========================================
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+.idea/dataSources/
+.idea/dataSources.xml
+.idea/dynamic.xml
+.idea/misc.xml
+.idea/sonarlint/
+.idea/uiDesigner.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/shelf/
+.idea/caches/
+.idea/runConfigurations/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+.metadata/
+.cheatsheet.xml
+*.launch
+
+### NetBeans ###
+nbproject/
+nbactions.xml
+nb-configuration.xml
+.nb-gradle/
+nbbuild/
+dist/
+nbdist/
+
+### VS Code ###
+.vscode/
+*.code-workspace
+.vscode-test/
+
+### Code Together ###
+.ct/
+
+# ==========================================
+# OS files
+# ==========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+# ==========================================
+# Maven
+# ==========================================
+pom.xml.versionsBackup
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+dependency-reduced-pom.xml
+buildNumber.properties
+*.orig
+
+# ==========================================
+# Gradle
+# ==========================================
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+
+# ==========================================
+# Docker
+# ==========================================
+*.pid
+*.pid.lock
+docker-compose.override.yml
+
+# ==========================================
+# Application specific
+# ==========================================
+application-local.yml
+application-dev.yml
+application-prod.yml
+application-*.properties
+!application-example.properties
+
+# ==========================================
+# Test reports
+# ==========================================
+test-output/
+target/surefire-reports/
+target/failsafe-reports/
+*.test
+*.testsum
+
+# ==========================================
+# Local configuration
+# ==========================================
+.idea/tasks.xml
+.idea/dictionaries/
+.idea/httpRequests/
+.idea/codeStyles/
+.idea/encodings.xml
+.idea/gradle.xml
+.idea/jpa-buddy.xml
+.idea/maven.xml
+.idea/runConfigurations.xml
+.idea/datasources.xml
+
+# ==========================================
+# Spring Boot devtools
+# ==========================================
+.spring-boot-devtools.properties
+spring-boot-devtools.properties
+
+# ==========================================
+# JaCoCo
+# ==========================================
+*.exec
+*.ec
+coverage-report/
+jacoco-report/
+
+# ==========================================
+# SonarQube
+# ==========================================
+.sonar/
+.scannerwork/
+sonar-project.properties
+
+# ==========================================
+# Dependabot
+# ==========================================
+dependabot.yml
+
+# ==========================================
+# Node / NPM (if used for frontend)
+# ==========================================
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
