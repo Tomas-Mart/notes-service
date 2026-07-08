@@ -176,79 +176,12 @@ jobs:
         continue-on-error: true
 
   # ==========================================
-  # Job 4: Deploy Swagger UI to GitHub Pages
-  # ==========================================
-  swagger:
-    name: 📚 Deploy Swagger UI
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
-
-    steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-
-      - name: ☕ Setup Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-          distribution: 'temurin'
-
-      - name: 📦 Download JAR
-        uses: actions/download-artifact@v4
-        with:
-          name: notes-service.jar
-          path: target/
-
-      - name: 🚀 Start app and generate OpenAPI
-        run: |
-          nohup java -jar target/notes-service-*.jar > app.log 2>&1 &
-          echo "Ожидание запуска приложения..."
-          for i in {1..30}; do
-            if curl -s http://localhost:8181/actuator/health > /dev/null 2>&1; then
-              echo "Приложение готово!"
-              break
-            fi
-            echo "Попытка $i/30: Ожидание..."
-            sleep 2
-          done
-          if ! curl -s http://localhost:8181/actuator/health > /dev/null 2>&1; then
-            echo "Приложение не запустилось!"
-            cat app.log
-            exit 1
-          fi
-          curl -o openapi.json http://localhost:8181/v3/api-docs
-          pkill -f "notes-service" || true
-
-      - name: 📄 Generate Swagger UI
-        run: |
-          # Скачиваем и настраиваем Swagger UI
-          wget -O swagger-ui.zip https://github.com/swagger-api/swagger-ui/archive/refs/heads/master.zip
-          unzip -q swagger-ui.zip
-          mkdir -p swagger-ui
-          cp -r swagger-ui-master/dist/* swagger-ui/
-          # Настраиваем ссылку на нашу спецификацию
-          sed -i 's|https://petstore.swagger.io/v2/swagger.json|./openapi.json|g' swagger-ui/index.html
-          cp openapi.json swagger-ui/
-
-      - name: 📤 Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: swagger-ui
-          publish_branch: gh-pages
-
-  # ==========================================
-  # Job 5: Deploy to Production (исправлен)
+  # Job 4: Deploy to Production (исправлен)
   # ==========================================
   deploy:
     name: 🚀 Deploy to Production
     runs-on: ubuntu-latest
-    needs: [ docker, swagger ]
+    needs: [ docker, deploy-swagger ]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment: production
 
@@ -284,7 +217,7 @@ jobs:
           curl -f http://localhost:8181/swagger-ui.html || exit 1
 
   # ==========================================
-  # Job 6: Deploy Swagger UI to GitHub Pages
+  # Job 5: Deploy Swagger UI to GitHub Pages
   # ==========================================
   deploy-swagger:
     name: 📚 Deploy Swagger UI
