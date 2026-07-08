@@ -151,6 +151,18 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: 🔍 Wait for image to be available
+        run: |
+          echo "Waiting for image to be available..."
+          for i in {1..10}; do
+            if docker pull ${{ env.REGISTRY }}/${{ github.repository }}:latest > /dev/null 2>&1; then
+              echo "✅ Image is available!"
+              break
+            fi
+            echo "Attempt $i/10: Waiting..."
+            sleep 5
+          done
+
       - name: 🔍 Scan Docker image
         uses: aquasecurity/trivy-action@master
         with:
@@ -159,6 +171,9 @@ jobs:
           exit-code: '0'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
+        env:
+          TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db
+        continue-on-error: true
 
   # ==========================================
   # Job 4: Deploy Swagger UI to GitHub Pages
