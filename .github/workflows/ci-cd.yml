@@ -280,20 +280,6 @@ jobs:
           cp openapi.json swagger-ui/
           cp index.md swagger-ui/
 
-          # ✅ СОЗДАЁМ index.html ДЛЯ ПЕРЕНАПРАВЛЕНИЯ
-          echo '<!DOCTYPE html>
-          <html>
-          <head>
-            <meta http-equiv="refresh" content="0; url=./swagger/">
-          </head>
-          <body>
-            <p>Redirecting to <a href="./swagger/">Swagger UI</a>...</p>
-          </body>
-          </html>' > swagger-ui/index.html
-          
-          # ✅ КОПИРУЕМ ЕГО В КОРЕНЬ (для главной страницы)
-          cp swagger-ui/index.html swagger-ui/../
-
       - name: 📤 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
