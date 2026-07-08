@@ -278,7 +278,7 @@ jobs:
 
           # Копируем вашу спецификацию
           cp openapi.json swagger-ui/
-          cp index.md swagger-ui/
+          cp index.md swagger-ui/../
 
       - name: 📤 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
