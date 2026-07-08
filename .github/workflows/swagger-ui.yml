@@ -1,0 +1,67 @@
+name: Deploy Swagger UI
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy-swagger:
+    name: 📚 Deploy Swagger UI
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: 📦 Build JAR
+        run: mvn clean package -DskipTests
+
+      - name: 🚀 Start app and generate OpenAPI
+        run: |
+          nohup java -jar target/notes-service-*.jar > app.log 2>&1 &
+          echo "Ожидание запуска приложения..."
+          for i in {1..30}; do
+            if curl -s http://localhost:8181/actuator/health > /dev/null 2>&1; then
+              echo "Приложение готово!"
+              break
+            fi
+            echo "Попытка $i/30: Ожидание..."
+            sleep 2
+          done
+          if ! curl -s http://localhost:8181/actuator/health > /dev/null 2>&1; then
+            echo "Приложение не запустилось!"
+            cat app.log
+            exit 1
+          fi
+          curl -o openapi.json http://localhost:8181/v3/api-docs
+          pkill -f "notes-service" || true
+
+      - name: 📄 Generate Swagger UI
+        run: |
+          wget -O swagger-ui.zip https://github.com/swagger-api/swagger-ui/archive/refs/heads/master.zip
+          unzip -q swagger-ui.zip
+          mkdir -p swagger-ui
+          cp -r swagger-ui-master/dist/* swagger-ui/
+          sed -i 's|https://petstore.swagger.io/v2/swagger.json|./openapi.json|g' swagger-ui/index.html
+          cp openapi.json swagger-ui/
+
+      - name: 📤 Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: swagger-ui
+          publish_branch: gh-pages
+          destination_dir: swagger
+          keep_files: false
+          force_orphan: true

@@ -79,7 +79,15 @@ docker-compose down
 
 ## 📚 API Документация
 
-После запуска приложения документация доступна по следующим адресам:
+### 🔗 Документация в интернете
+
+| Ресурс           | URL                                                                                                                                | Описание                       |
+|------------------|------------------------------------------------------------------------------------------------------------------------------------|--------------------------------|
+| **Swagger UI**   | [https://tomas-mart.github.io/notes-service/swagger/](https://tomas-mart.github.io/notes-service/swagger/)                         | Интерактивная документация API |
+| **OpenAPI JSON** | [https://tomas-mart.github.io/notes-service/swagger/openapi.json](https://tomas-mart.github.io/notes-service/swagger/openapi.json) | JSON спецификация              |
+| **Документация** | [https://tomas-mart.github.io/notes-service/](https://tomas-mart.github.io/notes-service/)                                         | Основная страница проекта      |
+
+### 🖥️ Локальная документация (при запущенном приложении)
 
 | Ресурс           | URL                                     | Описание                       |
 |------------------|-----------------------------------------|--------------------------------|
