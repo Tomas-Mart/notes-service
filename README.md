@@ -92,7 +92,7 @@ docker-compose down
 | Ресурс           | URL                                     | Описание                       |
 |------------------|-----------------------------------------|--------------------------------|
 | **Swagger UI**   | `http://localhost:8181/swagger-ui.html` | Интерактивная документация API |
-| **OpenAPI JSON** | `http://localhost:8181/api-docs`        | JSON спецификация OpenAPI      |
+| **OpenAPI JSON** | `http://localhost:8181/v3/api-docs`     | JSON спецификация OpenAPI      |
 | **OpenAPI YAML** | `http://localhost:8181/api-docs.yaml`   | YAML спецификация OpenAPI      |
 
 ### Скриншот Swagger UI
