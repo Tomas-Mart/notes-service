@@ -83,6 +83,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: swagger-ui
           publish_branch: gh-pages
-          destination_dir: swagger
           keep_files: false
           force_orphan: true
