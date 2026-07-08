@@ -25,10 +25,32 @@ jobs:
 
       - name: Build and run app
         run: |
-          mvn clean package -DskipTests &
-          sleep 30
+          # Запускаем приложение в фоне
+          nohup mvn spring-boot:run > app.log 2>&1 &
+          
+          # Ждем запуска с проверкой
+          echo "Waiting for application to start..."
+          for i in {1..30}; do
+            if curl -s http://localhost:8181/actuator/health > /dev/null 2>&1; then
+              echo "Application is ready!"
+              break
+            fi
+            echo "Attempt $i/30: Waiting..."
+            sleep 2
+          done
+          
+          # Проверяем, что приложение запущено
+          if ! curl -s http://localhost:8181/actuator/health > /dev/null 2>&1; then
+            echo "Application failed to start!"
+            cat app.log
+            exit 1
+          fi
+          
+          # Генерируем OpenAPI спецификацию
           curl -o openapi.json http://localhost:8181/v3/api-docs
-          kill %1
+          
+          # Останавливаем приложение
+          pkill -f "spring-boot:run" || true
 
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
