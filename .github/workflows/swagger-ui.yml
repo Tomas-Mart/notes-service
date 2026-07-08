@@ -57,7 +57,7 @@ jobs:
           # Исправляем ссылку в swagger-initializer.js
           sed -i 's|https://petstore.swagger.io/v2/swagger.json|./openapi.json|g' swagger-ui/swagger-initializer.js
 
-          cp openapi.json swagger-ui/
+          cp index.md swagger-ui/
 
       - name: 📤 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
