@@ -243,7 +243,7 @@ jobs:
           publish_branch: gh-pages
 
   # ==========================================
-  # Job 5: Deploy to Production (optional)
+  # Job 5: Deploy to Production (исправлен)
   # ==========================================
   deploy:
     name: 🚀 Deploy to Production
@@ -265,9 +265,13 @@ jobs:
 
       - name: 🐳 Pull and run container
         run: |
-          docker pull ${{ env.REGISTRY }}/${{ github.repository }}:latest
+          # Приводим имя образа к нижнему регистру (требование GHCR)
+          IMAGE_NAME=$(echo "${{ env.REGISTRY }}/${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "Using image: $IMAGE_NAME"
+          
+          docker pull $IMAGE_NAME:latest
           docker run -d -p 8181:8181 --name notes-app \
-            ${{ env.REGISTRY }}/${{ github.repository }}:latest
+            $IMAGE_NAME:latest
 
       - name: ✅ Health check
         run: |
