@@ -63,9 +63,11 @@ jobs:
         with:
           output: swagger-ui
           spec-file: openapi.json
+          token: ${{ secrets.GITHUB_TOKEN }}  # Явно передаем токен в with
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Добавляем и этот вариант
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
