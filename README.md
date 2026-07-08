@@ -534,11 +534,11 @@ limitations under the License.
 
 ## 👨‍💻 Контакты
 
-| Роль         | Контакт                                             |
-|--------------|-----------------------------------------------------|
-| Разработчик  | [GitHub](https://github.com/your-repo)              |
-| Email        | support@notes-service.com                           |
-| Документация | [Swagger UI](http://localhost:8181/swagger-ui.html) |
+| Роль         | Контакт                                               |
+|--------------|-------------------------------------------------------|
+| Email        | tomas_mart@bk.ru                                      |
+| Документация | [Swagger UI](http://localhost:8181/swagger-ui.html)   |
+| Разработчик  | [GitHub](https://github.com/Tomas-Mart/notes-service) |
 
 ---
 
