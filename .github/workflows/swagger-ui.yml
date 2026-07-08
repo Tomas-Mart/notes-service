@@ -53,7 +53,10 @@ jobs:
           unzip -q swagger-ui.zip
           mkdir -p swagger-ui
           cp -r swagger-ui-master/dist/* swagger-ui/
-          sed -i 's|https://petstore.swagger.io/v2/swagger.json|./openapi.json|g' swagger-ui/index.html
+
+          # Исправляем ссылку в swagger-initializer.js
+          sed -i 's|https://petstore.swagger.io/v2/swagger.json|./openapi.json|g' swagger-ui/swagger-initializer.js
+
           cp openapi.json swagger-ui/
 
       - name: 📤 Deploy to GitHub Pages
